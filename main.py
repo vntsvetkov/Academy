@@ -12,10 +12,13 @@ class Programmer:
     company: str
 
 
-
 def execute_application():
-
-    pass
+    programmer = Programmer()
+    programmer.name = "Николай"
+    programmer.age = 28
+    programmer.gender = "male"
+    programmer.language = "Python"
+    programmer.company = "Tensor"
 
 
 if __name__ == "__main__":
