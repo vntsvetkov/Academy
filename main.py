@@ -4,7 +4,13 @@ Object oriented programming
 """
 # Задача 1. Описать класс программист.
 class Programmer:
-    pass
+    # Поля класса
+    name: str
+    age: int
+    gender: str
+    language: str
+    company: str
+
 
 
 def execute_application():
