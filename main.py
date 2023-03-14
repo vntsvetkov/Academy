@@ -12,7 +12,7 @@ class Programmer:
     company: str
 
     def __init__(self, name: str, age: int, gender: str,
-                language: str, company: str):
+                language: str, company: str = None):
         """Конструктор класса Programmer"""
         self.name = name
         self.age = age
@@ -22,10 +22,8 @@ class Programmer:
 
 
 def execute_application():
-    programmer = Programmer()
+    programmer = Programmer("Иван", 32, "male", "Python", "Yandex")
     print(programmer.__dict__)
-    programmer1 = Programmer()
-    print(programmer1.__dict__)
 
 
 if __name__ == "__main__":
