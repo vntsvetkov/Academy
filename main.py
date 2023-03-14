@@ -19,6 +19,7 @@ def execute_application():
     programmer.gender = "male"
     programmer.language = "Python"
     programmer.company = "Tensor"
+    print(programmer.__dict__)
 
 
 if __name__ == "__main__":
