@@ -27,13 +27,27 @@ class Programmer:
                f"Компания: {self.__company} \n" \
                f"Заработная плата: {self.__salary + self.__premium}"
 
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name: str):
+        self.__name = name
+
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self, age: int):
+        self.__age = age
+
     def __calc_premium(self, percent: float = 0):
         return self.__salary * percent / 100
 
     def get_premium(self):
         return self.__premium
 
-    def set_premium(self, percent: float):
+    def set_premium(self, percent: float = 0):
         self.__premium = Programmer.__calc_premium(self, percent)
 
 
@@ -41,7 +55,10 @@ def execute_application():
     programmer = Programmer("Иван", 32, "male", "Python", "Яндекс", 100000)
     programmer.set_premium(10)
     print(programmer.get_premium())
-    print(programmer)
+
+    programmer.age = 21
+    print(programmer.age)
+
 
 if __name__ == "__main__":
     execute_application()
