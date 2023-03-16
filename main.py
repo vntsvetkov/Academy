@@ -1,3 +1,5 @@
+""" Модуль 9. День 2. Object oriented programming"""
+
 class Programmer:
 
     name: str
@@ -20,7 +22,6 @@ class Programmer:
                f"Пол: {self.gender} \n" \
                f"Язык программирования: {self.language} \n" \
                f"Компания: {self.company}"
-
 
 
 def execute_application():
