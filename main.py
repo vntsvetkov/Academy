@@ -26,11 +26,11 @@ class Programmer:
                f"Язык программирования: {self.__language} \n" \
                f"Компания: {self.__company} \n" \
                f"Заработная плата: {self.__salary + self.__premium}"
-
-    def get_name(self):
+    @property
+    def name(self):
         return self.__name
-
-    def set_name(self, name: str):
+    @name.setter
+    def name(self, name: str):
         self.__name = name
 
     @property
@@ -41,6 +41,13 @@ class Programmer:
     def age(self, age: int):
         self.__age = age
 
+    @property
+    def gender(self):
+        return self.__gender
+
+    @gender.setter
+    def gender(self, gender: str):
+        self.__gender = gender
     def __calc_premium(self, percent: float = 0):
         return self.__salary * percent / 100
 
