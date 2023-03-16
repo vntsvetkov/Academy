@@ -1,15 +1,10 @@
 """ Модуль 9. День 2. Object oriented programming"""
 
+
 class Programmer:
 
-    name: str
-    age: int
-    gender: str
-    language: str
-    company: str
-
     def __init__(self, name: str, age: int, gender: str,
-                language: str, company: str = None):
+                 language: str, company: str):
         self.name = name
         self.age = age
         self.gender = gender
@@ -25,7 +20,8 @@ class Programmer:
 
 
 def execute_application():
-    pass
+    programmer = Programmer("Иван", 32, "male", "Python", "Яндекс")
+    print(programmer)
 
 
 if __name__ == "__main__":
