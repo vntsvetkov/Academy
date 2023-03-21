@@ -10,7 +10,7 @@
 Статический метод не может изменять ни состояние объекта, ни состояние класса.
 Они работают как обычные функции
 
-Статические поля класса - общие поля для всех объектов этого класса
+Статические поля класса - общие поля для всех объектов этого класса (определяются до метода init)
 """
 
 class Programmer:
@@ -112,25 +112,21 @@ class Programmer:
 
 
 def execute_application():
+    """Задание 1. Написать сеттер для поля класса age с вызовом исключения"""
     '''
     programmer = Programmer("Иван", 34, "male", "Python", "Яндекс", 100000)
 
     try:
-        programmer.age = "45"
+        programmer.age = 45
     except Exception as e:
         print(e)
 
     print(programmer.age)
     '''
 
-    """Создание экземпляра с помощью classmethod"""
-    """
-    programmer.txt
-    Иван
-    45
-    ...
-    """
-    programmer = Programmer.init_from_file("./employees/programmer.txt")
+    """Задание 2. Создание экземпляра класса через classmethod"""
+
+    programmer = Programmer.init_from_file("./employees/programmers.txt")
     print(programmer)
 
     """Создание экземпляра с использовнаием staticmethod"""
