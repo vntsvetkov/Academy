@@ -3,6 +3,7 @@ class Programmer:
     def __init__(self, name: str, age: int, gender: str,
                  language: str, company: str,
                  salary: float = 0, premium: float = 0):
+        # assert isinstance(age, int), "Неверный тип данных в поле age"
         self.__name = name
         self.__age = age
         self.__gender = gender
@@ -21,10 +22,12 @@ class Programmer:
 
     @property
     def name(self):
+        """@SelfDocumentation"""
         return self.__name
 
     @name.setter
     def name(self, name: str):
+        # Подумать над обработкой
         self.__name = name
 
     @property
@@ -33,8 +36,18 @@ class Programmer:
 
     @age.setter
     def age(self, age: int):
-        self.__age = age
+        """
 
+        :param age:
+        :return:
+        """
+        if isinstance(age, int):
+            if 18 <= age <= 65:
+                self.__age = age
+            else:
+                raise Exception("Возраст не подходит")
+        else:
+            raise Exception("Не подходит тип значения")
     @property
     def gender(self):
         return self.__gender
@@ -44,6 +57,11 @@ class Programmer:
         self.__gender = gender
 
     def __calc_premium(self, percent: float = 0):
+        """
+
+        :param percent:
+        :return:
+        """
         return self.__salary * percent / 100
 
     def get_premium(self):
@@ -55,7 +73,21 @@ class Programmer:
 
 
 def execute_application():
-    programmer = Programmer("Иван", 32, "male", "Python", "Яндекс", 100000)
+    '''
+    try:
+        programmer = Programmer("Иван", "34", "male", "Python", "Яндекс", 100000)
+    except AssertionError as e:
+        print(e)
+    '''
+
+    programmer = Programmer("Иван", 34, "male", "Python", "Яндекс", 100000)
+
+    try:
+        programmer.age = "45"
+    except Exception as e:
+        print(e)
+
+    print(programmer.age)
 
 
 if __name__ == "__main__":
