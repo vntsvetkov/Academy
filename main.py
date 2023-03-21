@@ -1,3 +1,18 @@
+""" День 3. Object-oriented programming"""
+"""
+Классификация методов.
+1. Методы объекта/экземпляра класса. Обязательно первым параметром
+указывается self (указывает на текущий объект класса)
+2. Методы класса. Отмечаются декоратором @classmethod. Обязательно первым
+параметром указывается cls (указывает на текущий класс)
+Альтернативный конструктор.
+3. Статические методы. Отмечаются декоратором @staticmethod.
+Статический метод не может изменять ни состояние объекта, ни состояние класса.
+Они работают как обычные функции
+
+Статические поля класса - общие поля для всех объектов этого класса
+"""
+
 class Programmer:
 
     def __init__(self, name: str, age: int, gender: str,
@@ -11,6 +26,30 @@ class Programmer:
         self.__company = company
         self.__salary = salary
         self.__premium = premium
+
+    @classmethod
+    def init_from_file(cls, path: str):
+        # Открыть файл
+        # Прочитать данные из файла
+        name = ""
+        age = 0
+        gender = ""
+        language = ""
+        company = ""
+        salary = 0
+        return cls(name, age, gender, language, company, salary)
+
+    @staticmethod
+    def read_from_file(path: str) -> tuple:
+        # Открыть файл
+        # Прочитать данные из файла
+        name = ""
+        age = 0
+        gender = ""
+        language = ""
+        company = ""
+        salary = 0
+        return name, age, gender, language, company, salary
 
     def __str__(self):
         return f"Имя: {self.__name} \n" \
@@ -74,12 +113,6 @@ class Programmer:
 
 def execute_application():
     '''
-    try:
-        programmer = Programmer("Иван", "34", "male", "Python", "Яндекс", 100000)
-    except AssertionError as e:
-        print(e)
-    '''
-
     programmer = Programmer("Иван", 34, "male", "Python", "Яндекс", 100000)
 
     try:
@@ -88,6 +121,24 @@ def execute_application():
         print(e)
 
     print(programmer.age)
+    '''
+
+    """Создание экземпляра с помощью classmethod"""
+    """
+    programmer.txt
+    Иван
+    45
+    ...
+    """
+    programmer = Programmer.init_from_file("./employees/programmer.txt")
+    print(programmer)
+
+    """Создание экземпляра с использовнаием staticmethod"""
+    # в data будет записан кортеж с данными объекта ("Иван", 32, ...)
+    data = Programmer.read_from_file("./employees/programmer.txt")
+    programmer = Programmer(*data)
+    #programmer = Programmer(data[0], data[1], ...)
+
 
 
 if __name__ == "__main__":
