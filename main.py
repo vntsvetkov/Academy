@@ -10,9 +10,8 @@
 Статический метод не может изменять ни состояние объекта, ни состояние класса.
 Они работают как обычные функции
 
-Статические поля класса - общие поля для всех объектов этого класса
+Статические поля класса - общие поля для всех объектов этого класса (определяются до метода init)
 """
-
 class Programmer:
 
     def __init__(self, name: str, age: int, gender: str,
@@ -29,27 +28,25 @@ class Programmer:
 
     @classmethod
     def init_from_file(cls, path: str):
-        # Открыть файл
-        # Прочитать данные из файла
-        name = ""
-        age = 0
-        gender = ""
-        language = ""
-        company = ""
-        salary = 0
-        return cls(name, age, gender, language, company, salary)
+        with open(path, "r", encoding="utf-8") as file:
+            name = file.readline().rstrip("\n")
+            age = int(file.readline().rstrip("\n"))
+            gender = file.readline().rstrip("\n")
+            language = file.readline().rstrip("\n")
+            company = file.readline().rstrip("\n")
+            salary = float(file.readline().rstrip("\n"))
+            return cls(name, age, gender, language, company, salary)
 
     @staticmethod
     def read_from_file(path: str) -> tuple:
-        # Открыть файл
-        # Прочитать данные из файла
-        name = ""
-        age = 0
-        gender = ""
-        language = ""
-        company = ""
-        salary = 0
-        return name, age, gender, language, company, salary
+        with open(path, "r", encoding="utf-8") as file:
+            name = file.readline().rstrip("\n")
+            age = int(file.readline().rstrip("\n"))
+            gender = file.readline().rstrip("\n")
+            language = file.readline().rstrip("\n")
+            company = file.readline().rstrip("\n")
+            salary = float(file.readline().rstrip("\n"))
+            return name, age, gender, language, company, salary
 
     def __str__(self):
         return f"Имя: {self.__name} \n" \
@@ -61,7 +58,7 @@ class Programmer:
 
     @property
     def name(self):
-        """@SelfDocumentation"""
+        """@SelfDocument"""
         return self.__name
 
     @name.setter
@@ -112,33 +109,31 @@ class Programmer:
 
 
 def execute_application():
+    """Задание 1. Написать сеттер для поля класса age с вызовом исключения"""
     '''
     programmer = Programmer("Иван", 34, "male", "Python", "Яндекс", 100000)
 
     try:
-        programmer.age = "45"
+        programmer.age = 45
     except Exception as e:
         print(e)
 
     print(programmer.age)
     '''
 
-    """Создание экземпляра с помощью classmethod"""
-    """
-    programmer.txt
-    Иван
-    45
-    ...
-    """
-    programmer = Programmer.init_from_file("./employees/programmer.txt")
+    """Задание 2. Создание экземпляра класса через classmethod"""
+    '''
+    programmer = Programmer.init_from_file("./employees/programmers.txt")
     print(programmer)
+    '''
 
-    """Создание экземпляра с использовнаием staticmethod"""
+    """Задание 3. Создание экземпляра с использовнаием staticmethod"""
+    '''
     # в data будет записан кортеж с данными объекта ("Иван", 32, ...)
-    data = Programmer.read_from_file("./employees/programmer.txt")
+    data = Programmer.read_from_file("./employees/programmers.txt")
     programmer = Programmer(*data)
-    #programmer = Programmer(data[0], data[1], ...)
-
+    print(programmer)
+    '''
 
 if __name__ == "__main__":
     execute_application()
