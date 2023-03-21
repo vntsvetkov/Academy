@@ -29,15 +29,14 @@ class Programmer:
 
     @classmethod
     def init_from_file(cls, path: str):
-        # Открыть файл
-        # Прочитать данные из файла
-        name = ""
-        age = 0
-        gender = ""
-        language = ""
-        company = ""
-        salary = 0
-        return cls(name, age, gender, language, company, salary)
+        with open(path, "r", encoding="utf-8") as file:
+            name = file.readline().rstrip("\n")
+            age = int(file.readline().rstrip("\n"))
+            gender = file.readline().rstrip("\n")
+            language = file.readline().rstrip("\n")
+            company = file.readline().rstrip("\n")
+            salary = float(file.readline().rstrip("\n"))
+            return cls(name, age, gender, language, company, salary)
 
     @staticmethod
     def read_from_file(path: str) -> tuple:
