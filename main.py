@@ -1,3 +1,5 @@
+from geometry_square import GeometrySquare
+
 
 def execute_application():
     pass
