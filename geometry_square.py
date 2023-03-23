@@ -29,5 +29,5 @@ class GeometrySquare:
         return 0.25 * l * d
 
     @staticmethod
-    def circle_square_2(r: float):
+    def circle_square_3(r: float):
         return pi * r ** 2
