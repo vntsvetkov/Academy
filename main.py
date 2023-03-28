@@ -41,7 +41,7 @@ class Person:
 
 
 class Employee(Person):
-    __AGE = 18
+
     def __init__(self, name: str, age: int, position: str, salary: float):
         super().__init__(name, age)
         self.__position = position
