@@ -1,3 +1,10 @@
+from dataclasses import dataclass, field
+
+@dataclass
+class Book:
+    title: str
+    author: str
+
 class Human:
     # Статическая переменная класса
     __AGE = 18
@@ -54,12 +61,14 @@ class Human:
 def execute_application():
     #human = Human("Вася", 26)
     #human = Human.create_human_from_file("humans/human.txt")
-    human = Human()
-    human.name = "Вася"
-    human.age = 45
-    print(human.info())
-    print(repr(human))
+    #human = Human()
+    #human.name = "Вася"
+    #human.age = 45
+    #print(human.info())
+    #print(repr(human))
 
+    book = Book("Война и мир", "Толстой Л.Н.")
+    print(book)
 
 if __name__ == "__main__":
     execute_application()
