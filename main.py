@@ -41,21 +41,11 @@ class Person:
 
 
 class Employee(Person):
-    __AGE = 18
+    _AGE = 18
     def __init__(self, name: str, age: int, position: str, salary: float):
         super().__init__(name, age)
         self.__position = position
         self.__salary = salary
-
-    @property
-    def age(self):
-        return Person.age.fget(self)
-    @age.setter
-    def age(self, value):
-        if value >= 18:
-            Person.age.fset(self, value)
-        else:
-            raise ErrorSettingAge(f"Возраст сотрудника олжен быть больше либо равен", Employee.__AGE)
     @property
     def position(self):
         return self.__position
@@ -98,6 +88,16 @@ class Programmer(Employee):
     @level.setter
     def level(self, value):
         self.__level = value
+
+    @property
+    def age(self):
+        return Employee.age.fget(self)
+    @age.setter
+    def age(self, value):
+        if value >= 18:
+            Employee.age.fset(self, value)
+        else:
+            raise ErrorSettingAge(f"Возраст сотрудника должен быть больше либо равен", Employee._AGE)
     def info(self):
         super().info()
         print(f"Язык: {self.__language} \n"
@@ -114,6 +114,7 @@ def execute_application():
     print()
 
     programmer = Programmer("Иван", 36, "Программист", 160000, "Go", "Junior")
+    #programmer.age = 20
     programmer.info()
     print()
 
