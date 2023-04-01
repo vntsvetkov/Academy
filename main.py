@@ -18,52 +18,55 @@ class ErrorSettingAge(Exception):
 
 class Person:
     def __init__(self, name, age):
-        self.__name = name
-        self.__age = age
+        self._name = name
+        self._age = age
 
     @property
     def name(self):
-        return self.__name
+        return self._name
     @name.setter
     def name(self, value):
-        self.__name = value
+        self._name = value
     @property
     def age(self):
-        return self.__age
+        return self._age
     @age.setter
     def age(self, value):
-        self.__age = value
+        self._age = value
 
     def info(self):
         print(f"Класс: {self.__class__.__name__} \n"
-              f"Имя: {self.__name} \n"
-              f"Возраст: {self.__age}")
-
+              f"Имя: {self._name} \n"
+              f"Возраст: {self._age}")
 
 class Employee(Person):
-    _AGE = 18
+    _AGE_LIMIT = 18
     def __init__(self, name: str, age: int, position: str, salary: float):
         super().__init__(name, age)
-        self.__position = position
-        self.__salary = salary
+        self._position = position
+        self._salary = salary
     @property
     def position(self):
-        return self.__position
+        return self._position
     @position.setter
     def position(self, value):
-        self.__position = value
-
+        self._position = value
     @property
     def salary(self):
-        return self.__salary
+        return self._salary
     @salary.setter
     def salary(self, value):
-        self.__salary = value
-
+        self._salary = value
+    @Person.age.setter
+    def age(self, value):
+        if value >= 18:
+            self._age = value
+        else:
+            raise ErrorSettingAge(f"Возраст сотрудника должен быть больше либо равен", Employee._AGE_LIMIT)
     def info(self):
         super().info()
-        print(f"Должность: {self.__position} \n"
-              f"Зарплата: {self.__salary}")
+        print(f"Должность: {self._position} \n"
+              f"Зарплата: {self._salary}")
 
 
 class Programmer(Employee):
@@ -89,15 +92,6 @@ class Programmer(Employee):
     def level(self, value):
         self.__level = value
 
-    @property
-    def age(self):
-        return Employee.age.fget(self)
-    @age.setter
-    def age(self, value):
-        if value >= 18:
-            Employee.age.fset(self, value)
-        else:
-            raise ErrorSettingAge(f"Возраст сотрудника должен быть больше либо равен", Employee._AGE)
     def info(self):
         super().info()
         print(f"Язык: {self.__language} \n"
@@ -105,16 +99,9 @@ class Programmer(Employee):
 
 
 def execute_application():
-    person = Person("Вася", 34)
-    person.info()
-    print()
-
-    employee = Employee("Петя", 45, "Менеджер", 50000)
-    employee.info()
-    print()
 
     programmer = Programmer("Иван", 36, "Программист", 160000, "Go", "Junior")
-    #programmer.age = 20
+    #programmer.age = 15
     programmer.info()
     print()
 
