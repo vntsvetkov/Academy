@@ -4,7 +4,9 @@ from abc import ABC, abstractmethod
 
 
 class RectangleFormulas(ABC):
-    pass
+    @abstractmethod
+    def area_by_diagonal(self):
+        pass
 
 
 class CircleFormulas(ABC):
@@ -17,25 +19,31 @@ class Figure:
         self.__y = y
 
     @property
-    @abstractmethod
     def x(self):
-        pass
+        return self.__x
 
     @x.setter
-    @abstractmethod
     def x(self, x):
-        pass
+        self.__x = x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @y.setter
+    def y(self, y):
+        self.__y = y
 
     @abstractmethod
     def area(self):
-        pass
+        return "Вызов area() из класса Figure"
 
     @abstractmethod
     def perimetr(self):
         pass
 
 
-class Rectangle(Figure):
+class Rectangle(Figure, RectangleFormulas):
     def __init__(self, x: int, y: int, width: int, height: int):
         super().__init__(x, y)
         self.__width = width
@@ -46,6 +54,13 @@ class Rectangle(Figure):
 
     def perimetr(self):
         return (self.__width + self.__height) * 2
+
+    def __diagonal(self):
+        return math.sqrt(self.__width**2 + self.__height**2)
+
+    def area_by_diagonal(self):
+        d = self.__diagonal()
+        return self.__width * math.sqrt(d**2 - self.__width**2)
 
 
 class Circle(Figure):
@@ -58,3 +73,6 @@ class Circle(Figure):
 
     def perimetr(self):
         return 2 * math.pi * self.__radius
+
+
+

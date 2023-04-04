@@ -11,8 +11,10 @@ from figures import *
 
 
 def execute_application():
-    rect = Rectangle(0, 0, 5, 6)
+    rect = Rectangle(0, 0, 3, 4)
     print(rect.area())
+    print(rect.perimetr())
+    print(rect.area_by_diagonal())
 
 
 if __name__ == "__main__":
