@@ -1,5 +1,4 @@
-from abc import ABC, abstractmethod
-import figures
+from figures import *
 """
 Абстрактные классы.
 Определяет общий интерфейс для набора подклассов.
@@ -10,8 +9,10 @@ import figures
 которые описаны в абстрактном классе.
 """
 
+
 def execute_application():
-    pass
+    rect = Rectangle(0, 0, 5, 6)
+    print(rect.area())
 
 
 if __name__ == "__main__":

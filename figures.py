@@ -1,11 +1,23 @@
 # Прямоугольник
 import math
+from abc import ABC, abstractmethod
 
 
-class Rectangle:
-    def __init__(self, x: int, y: int, width: int, height: int):
+class Figure:
+    def __init__(self, x: int, y: int):
         self.__x = x
         self.__y = y
+    @abstractmethod
+    def area(self):
+        pass
+    @abstractmethod
+    def perimetr(self):
+        pass
+
+
+class Rectangle(Figure):
+    def __init__(self, x: int, y: int, width: int, height: int):
+        super().__init__(x, y)
         self.__width = width
         self.__height = height
 
@@ -16,10 +28,9 @@ class Rectangle:
         return (self.__width + self.__height) * 2
 
 
-class Circle:
+class Circle(Figure):
     def __init__(self, x: int, y: int, radius: int):
-        self.__x = x
-        self.__y = y
+        super().__init__(x ,y)
         self.__radius = radius
 
     def area(self):
