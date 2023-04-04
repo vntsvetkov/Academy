@@ -3,13 +3,33 @@ import math
 from abc import ABC, abstractmethod
 
 
+class RectangleFormulas(ABC):
+    pass
+
+
+class CircleFormulas(ABC):
+    pass
+
+
 class Figure:
     def __init__(self, x: int, y: int):
         self.__x = x
         self.__y = y
+
+    @property
+    @abstractmethod
+    def x(self):
+        pass
+
+    @x.setter
+    @abstractmethod
+    def x(self, x):
+        pass
+
     @abstractmethod
     def area(self):
         pass
+
     @abstractmethod
     def perimetr(self):
         pass
