@@ -1,4 +1,3 @@
-# Прямоугольник
 import math
 from abc import ABC, abstractmethod
 
@@ -10,7 +9,9 @@ class RectangleFormulas(ABC):
 
 
 class CircleFormulas(ABC):
-    pass
+    @abstractmethod
+    def area_by_diameter(self):
+        pass
 
 
 class Figure:
@@ -36,7 +37,7 @@ class Figure:
 
     @abstractmethod
     def area(self):
-        return "Вызов area() из класса Figure"
+        pass
 
     @abstractmethod
     def perimetr(self):
@@ -47,6 +48,22 @@ class Rectangle(Figure, RectangleFormulas):
     def __init__(self, x: int, y: int, width: int, height: int):
         super().__init__(x, y)
         self.__width = width
+        self.__height = height
+
+    @property
+    def width(self):
+        return self.__width
+
+    @width.setter
+    def width(self, width):
+        self.__width = width
+
+    @property
+    def height(self):
+        return self.__height
+
+    @height.setter
+    def height(self, height):
         self.__height = height
 
     def area(self):
@@ -63,9 +80,17 @@ class Rectangle(Figure, RectangleFormulas):
         return self.__width * math.sqrt(d**2 - self.__width**2)
 
 
-class Circle(Figure):
+class Circle(Figure, CircleFormulas):
     def __init__(self, x: int, y: int, radius: int):
-        super().__init__(x ,y)
+        super().__init__(x, y)
+        self.__radius = radius
+
+    @property
+    def radius(self):
+        return self.__radius
+
+    @radius.setter
+    def radius(self, radius):
         self.__radius = radius
 
     def area(self):
@@ -74,5 +99,9 @@ class Circle(Figure):
     def perimetr(self):
         return 2 * math.pi * self.__radius
 
+    def __diameter(self):
+        return 2 * self.__radius
 
-
+    def area_by_diameter(self):
+        d = self.__diameter()
+        return 0.25 * d**2 * math.pi
