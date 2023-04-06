@@ -10,6 +10,10 @@ from abc import ABC, abstractmethod
 3. Принцип подстановки Барбары Лисков
 Объекты в программе должны быть заменяемы экземплярами их подтипов 
 без ущерба корректности работы программы
+
+4. Принцип разделения интерфейса
+
+5. Принцип инверсии зависимостей
 """
 
 
@@ -55,6 +59,7 @@ class Car(MixinRadio):
         self.__year = year
         self.__color = color
         self.__power = power
+        self.capacity = {}
 
     def __str__(self):
         return f"Марка: {self.__brand} год: {self.__year} цвет: {self.__color}"
@@ -63,9 +68,17 @@ class Car(MixinRadio):
     def power(self):
         return self.__power
 
+    def set_capacity(self, place, trunk):
+        self.capacity = {"Количество мест": place, "Объем багажника": trunk}
 
 
 class SUV(Car):
+    pass
+
+
+class Sedan(Car):
+    pass
+
 
 class NalogCalculation:
     @abstractmethod
@@ -108,6 +121,12 @@ class DBManagementCar:
         pass
 
 
+def print_capacity_car(obj):
+    capacity = obj.capacity
+    for key in capacity.keys():
+        print(key, capacity[key])
+
+
 def execute_application():
     car = Car("BMW", 2005, "black", 80)
     radio = Radio("Авто радио")
@@ -120,9 +139,13 @@ def execute_application():
         ncm = NalogCalculationMedium(car.power)
         print(ncm.get_nalog())
 
+    suv = SUV("Jeep", 2010, "red", 160)
+    sedan = Sedan("KIA", 2020, "gray", 105)
+    car.set_capacity(4, 500)
+    suv.set_capacity(6, 1000)
+    sedan.set_capacity(4, 300)
 
-
-
+    print_capacity_car(sedan)
 
     #mobile_phone = MobilePhone("Iphone 14", 2023, "white")
     #radio.station = "Европа +"
