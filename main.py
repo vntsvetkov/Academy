@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 """ Принципы проектирования классов SOLID
 1. Принцип единственной ответственности
 У каждого класса должна быть только одна «ответственность» 
@@ -14,6 +15,7 @@ from abc import ABC, abstractmethod
 4. Принцип разделения интерфейса
 
 5. Принцип инверсии зависимостей
+obj.capacity
 """
 
 
@@ -30,12 +32,12 @@ class Radio:
         self.__station = station
 
     def play(self):
-        return f"В эфире радио {self.__station}"
+        return f"Вы слушаете {self.__station}"
 
 
 class MixinRadio:
-
-    def play_radio(self, radio: Radio):
+    @staticmethod
+    def turn_radio(radio: Radio):
         print(radio.play())
 
 
@@ -59,7 +61,7 @@ class Car(MixinRadio):
         self.__year = year
         self.__color = color
         self.__power = power
-        self.capacity = {}
+        self.__capacity = {}
 
     def __str__(self):
         return f"Марка: {self.__brand} год: {self.__year} цвет: {self.__color}"
@@ -68,8 +70,10 @@ class Car(MixinRadio):
     def power(self):
         return self.__power
 
+    def get_capacity(self):
+        return self.__capacity
     def set_capacity(self, place, trunk):
-        self.capacity = {"Количество мест": place, "Объем багажника": trunk}
+        self.__capacity = {"Количество мест": place, "Объем багажника": trunk}
 
 
 class SUV(Car):
@@ -80,7 +84,7 @@ class Sedan(Car):
     pass
 
 
-class NalogCalculation:
+class NalogCalculation(ABC):
     @abstractmethod
     def get_nalog(self):
         pass
@@ -122,34 +126,37 @@ class DBManagementCar:
 
 
 def print_capacity_car(obj):
-    capacity = obj.capacity
+    capacity = obj.get_capacity()
     for key in capacity.keys():
         print(key, capacity[key])
 
 
-def execute_application():
-    car = Car("BMW", 2005, "black", 80)
-    radio = Radio("Авто радио")
-    car.play_radio(radio)
+def get_nalog(power: int):
+    if power < Power.LOWER:
+        return NalogCalculationLower(power).get_nalog()
+    elif Power.LOWER <= power < Power.MEDIUM:
+        return NalogCalculationMedium(car.power).get_nalog()
 
-    if car.power < Power.LOWER:
-        ncl = NalogCalculationLower(car.power)
-        print(ncl.get_nalog())
-    elif Power.LOWER <= car.power < Power.MEDIUM:
-        ncm = NalogCalculationMedium(car.power)
-        print(ncm.get_nalog())
+
+def execute_application():
+    radio = Radio("Авто-радио")
+
+    mobile_phone = MobilePhone("Iphone 14", 2023, "white")
+    mobile_phone.turn_radio(radio)
+
+    car = Car("BMW", 2005, "black", 80)
+    car.turn_radio(radio)
+    print(get_nalog(car.power))
+
 
     suv = SUV("Jeep", 2010, "red", 160)
     sedan = Sedan("KIA", 2020, "gray", 105)
     car.set_capacity(4, 500)
     suv.set_capacity(6, 1000)
     sedan.set_capacity(4, 300)
-
+    print_capacity_car(car)
     print_capacity_car(sedan)
-
-    #mobile_phone = MobilePhone("Iphone 14", 2023, "white")
-    #radio.station = "Европа +"
-    #mobile_phone.play_radio(radio)
+    print_capacity_car(suv)
 
 
 if __name__ == "__main__":
