@@ -1,5 +1,6 @@
 """День 8. Принципы SOLID"""
 from abc import ABC, abstractmethod
+from copy import copy, deepcopy
 """
 4. Принцип разделения интерфейса
 Ни один класс не должен зависеть от методов, которые он не использует.
@@ -58,8 +59,55 @@ class StationaryPhone(CallingDevice):
         pass
 
 
+"""
+5. Принцип инверсии зависимостей
+Модуль высокого уровня не должен зависеть от модулей низкого уровня. 
+И то, и другое должно зависеть от абстракций. 
+
+Задача 2. Создать систему оплаты для магазина.
+
+"""
+
+class Payment(ABC):
+    @abstractmethod
+    def doTransaction(self, amount: float):
+        pass
+
+class Cash(Payment):
+    def doTransaction(self, amount: float):
+        # TODO: реализовать логику сделки по наличному расчету
+        print(f"Проведена оплата наличными: {amount} руб.")
+        pass
+
+class Card(Payment):
+    def doTransaction(self, amount: float):
+        # TODO: реализовать логику сделки по банковской карте
+        print(f"Проведена оплата по банковской карте: {amount} руб.")
+        pass
+
+class Remittance(Payment):
+    def doTransaction(self, amount: float):
+        # TODO: реализовать логику сделки по онлайн-переводу
+        print(f"Проведена оплата онлайн-переводом: {amount} руб.")
+        pass
+
+class Shop:
+
+    def __init__(self, payment: Payment):
+        self.__payment = copy(payment)
+
+    def doPayment(self, amount: float):
+        self.__payment.doTransaction(amount)
+
+
 def execute_application():
-    pass
+
+    cash = Cash()
+    card = Card()
+    remittance = Remittance()
+
+    shop = Shop(remittance)
+    shop.doPayment(1000)
 
 
 if __name__ == "__main__":
