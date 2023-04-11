@@ -1,6 +1,7 @@
 """День 8. Принципы SOLID"""
 from abc import ABC, abstractmethod
 from copy import copy, deepcopy
+from MagicMethods import Point
 """
 4. Принцип разделения интерфейса
 Ни один класс не должен зависеть от методов, которые он не использует.
@@ -68,46 +69,50 @@ class StationaryPhone(CallingDevice):
 
 """
 
+
 class Payment(ABC):
     @abstractmethod
-    def doTransaction(self, amount: float):
+    def do_transaction(self, amount: float):
         pass
 
+
 class Cash(Payment):
-    def doTransaction(self, amount: float):
+    def do_transaction(self, amount: float):
         # TODO: реализовать логику сделки по наличному расчету
         print(f"Проведена оплата наличными: {amount} руб.")
         pass
 
+
 class Card(Payment):
-    def doTransaction(self, amount: float):
+    def do_transaction(self, amount: float):
         # TODO: реализовать логику сделки по банковской карте
         print(f"Проведена оплата по банковской карте: {amount} руб.")
         pass
 
+
 class Remittance(Payment):
-    def doTransaction(self, amount: float):
+    def do_transaction(self, amount: float):
         # TODO: реализовать логику сделки по онлайн-переводу
         print(f"Проведена оплата онлайн-переводом: {amount} руб.")
         pass
+
 
 class Shop:
 
     def __init__(self, payment: Payment):
         self.__payment = copy(payment)
 
-    def doPayment(self, amount: float):
-        self.__payment.doTransaction(amount)
+    def do_payment(self, amount: float):
+        self.__payment.do_transaction(amount)
 
 
 def execute_application():
 
-    cash = Cash()
-    card = Card()
-    remittance = Remittance()
-
-    shop = Shop(remittance)
-    shop.doPayment(1000)
+    point1 = Point(1, 2)
+    point2 = Point(1, 2)
+    print(hash(point1))
+    print(hash(point2))
+    print(point1 == point2)
 
 
 if __name__ == "__main__":
