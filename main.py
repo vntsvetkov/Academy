@@ -1,6 +1,7 @@
 """День 8. Принципы SOLID"""
 from abc import ABC, abstractmethod
 from copy import copy, deepcopy
+from MagicMethods import Point
 """
 4. Принцип разделения интерфейса
 Ни один класс не должен зависеть от методов, которые он не использует.
@@ -106,7 +107,12 @@ class Shop:
 
 
 def execute_application():
-    pass
+
+    point1 = Point(1, 2)
+    point2 = Point(1, 2)
+    print(hash(point1))
+    print(hash(point2))
+    print(point1 == point2)
 
 
 if __name__ == "__main__":
