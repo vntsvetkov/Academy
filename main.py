@@ -110,9 +110,7 @@ def execute_application():
 
     point1 = Point(1, 2)
     point2 = Point(1, 2)
-    print(hash(point1))
-    print(hash(point2))
-    print(point1 == point2)
+
 
 
 if __name__ == "__main__":
