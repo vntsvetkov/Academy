@@ -1,7 +1,9 @@
+from Time import Time
 
 
 def execute_application():
-    pass
+    time = Time(65)
+    print(time)
 
 
 if __name__ == "__main__":
