@@ -1,5 +1,6 @@
 """ День 10. Взаимодействие между классами"""
 import copy
+from library_module import *
 """
 3 способа взаимодействия между классами:
     1. Наследование.
@@ -40,8 +41,8 @@ class Car:
     Способы внедрения зависимостей:
         1. Через метод инициализации (конструктор класса)
         2. Через метод установки (сеттер)
-        3. Через метод класса
-"""
+        3. Через метод
+
 
 
 class Engine:
@@ -84,17 +85,35 @@ class CarSrvice:
     def change_engine(car: Car, power: int):
         car.engine = Engine(power)
 
+engine = Engine(100)
+car = Car(engine)
+print(f"Мощность двигателя автомобиля: {car.engine.power}")
+car.engine.power = 200
+print(f"Мощность двигателя автомобиля: {car.engine.power}")
+racer = Racer(car)
+print(f"Мощность старого двигателя автомобиля гонщика: {racer.car.engine.power}")
+CarSrvice.change_engine(racer.car, 1000)
+print(f"Мощность нового двигателя автомобиля гонщика: {racer.car.engine.power}")
+
+"""
+
 
 def execute_application():
-    engine = Engine(100)
-    car = Car(engine)
-    print(f"Мощность двигателя автомобиля: {car.engine.power}")
-    car.engine.power = 200
-    print(f"Мощность двигателя автомобиля: {car.engine.power}")
-    racer = Racer(car)
-    print(f"Мощность старого двигателя автомобиля гонщика: {racer.car.engine.power}")
-    CarSrvice.change_engine(racer.car, 1000)
-    print(f"Мощность нового двигателя автомобиля гонщика: {racer.car.engine.power}")
+    author = Author("Александр", "Пушкин", 1798)
+    book = Book("Евгений Онегин", "Роман", 560, author)
+    reader = LibraryReader("Николай", 129765)
+
+    reader.take_book(book)
+    author.year = 1799
+    new_book = Book("Руслан и Людмила", "Роман", 460, author)
+    reader.take_book(new_book)
+    try:
+        out_book = reader.give_book("Евгений Онегин")
+    except FoundBookError as e:
+        print(e)
+    print(f"Читатель {reader.name} взял в библиотеке книги: ")
+    for b in reader.book:
+        print(b)
 
 
 if __name__ == "__main__":
