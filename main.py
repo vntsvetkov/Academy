@@ -1,5 +1,6 @@
 """ День 10. Взаимодействие между классами"""
 import copy
+import json
 from library_module import *
 """
 3 способа взаимодействия между классами:
@@ -99,21 +100,44 @@ print(f"Мощность нового двигателя автомобиля г
 
 
 def execute_application():
-    author = Author("Александр", "Пушкин", 1798)
-    book = Book("Евгений Онегин", "Роман", 560, author)
+    author = Author("Александр", "Пушкин", 1799)
+    book1 = Book("Евгений Онегин", "Роман", 560, author)
+    book2 = Book("Руслан и Людмила", "Роман", 460, author)
     reader = LibraryReader("Николай", 129765)
+    library = Library("Библиотека им. А.С. Пушкина")
+    library.add_book(book1)
+    library.add_book(book2)
+    #library.print_books()
+    #library.del_book(book1.name)
+    #library.print_books()
 
-    reader.take_book(book)
-    author.year = 1799
-    new_book = Book("Руслан и Людмила", "Роман", 460, author)
-    reader.take_book(new_book)
-    try:
-        out_book = reader.give_book("Евгений Онегин")
-    except FoundBookError as e:
-        print(e)
-    print(f"Читатель {reader.name} взял в библиотеке книги: ")
-    for b in reader.book:
-        print(b)
+    list_books = GenreFilterBooksLibrary.get_books(library, "Роман")
+    for book in list_books:
+        print(book)
+
+    list_books = AuthorFilterBooksLibrary.get_books(library, author)
+    for book in list_books:
+        print(book)
+
+    # Способ 1
+    # j = json.dumps(library, default=lambda x: x.__dict__)
+
+    # Способ 2
+    # j = AuthorJSONConverter.to_dict(author)
+    # d = json.dumps(j)
+
+    # Способ 3. Переопределение метода default класса json.JSONEncoder
+    # x = json.dumps(author, cls=TestEncoder)
+
+    # Способ 4. Пример 1 (Автор)
+    # x = JSONAuthorAdapter.to_json(author)
+    # print(x)
+    # y = JSONAuthorAdapter.from_json(x)
+    # print(y)
+
+    # Пример 2. Класс Книга
+    x = JSONBookAdapter.to_json(book1)
+    print(x)
 
 
 if __name__ == "__main__":
