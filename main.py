@@ -138,6 +138,8 @@ def execute_application():
     # Пример 2. Класс Книга
     x = JSONBookAdapter.to_json(book1)
     print(x)
+    y = JSONBookAdapter.from_json(x)
+    print(y)
 
 
 if __name__ == "__main__":

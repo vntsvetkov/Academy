@@ -1,16 +1,6 @@
 import copy
 from abc import abstractmethod
 import json
-"""
-Реализовать класс Книга, Автор, Читатель, [Бибилиотека]
-Описать требуемые зависимости
-Протестировать функциональность:
-    - Создать книгу
-    - Создать читателя
-    - Выдать читателю книгу
-    - Поменять читателю книгу
-"""
-
 
 class FoundBookError(Exception):
     def __init__(self, text: str):
@@ -144,11 +134,10 @@ class Library(SearchingElements):
         for book in self.__books:
             yield book
 
-    # Список книг
-    # Список читателей
-    # Выдать читателю книгу
-    # Принять у читателя книгу
-    # Удалить/добавить нового читателя
+
+    # TODO: реализовать метод "Выдать читателю книгу"
+    # TODO: реализовать метод "Принять у читателя книгу"
+    # TODO: реализовать методы по удалению/добавлению нового читателя
 
 
 class FilterLibrary:
@@ -218,8 +207,13 @@ class JSONBookAdapter:
                 "name": book.name,
                 "genre": book.genre,
                 "pages": book.pages,
-                "author": AuthorJSONConverter.to_dict(book.author),
+                "author": {"name": book.author.name, "surname": book.author.surname, "year": book.author.year},
             })
     @staticmethod
-    def from_json():
-        pass
+    def from_json(data):
+        obj = json.loads(data)
+
+        try:
+            return Book(obj["name"], obj["genre"], obj["pages"], Author(obj["author"]["name"], obj["author"]["surname"], obj["author"]["year"]))
+        except AttributeError as e:
+            print(e)
