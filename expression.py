@@ -11,10 +11,6 @@ class ExpressionConverter:
     def to_postfix(expression: str) -> list:
         pass
 
-    @staticmethod
-    def to_infix(expression: list) -> str:
-        pass
-
 
 class Expression:
 
@@ -29,3 +25,10 @@ class Expression:
     @property
     def postfix_expression(self):
         return self.__postfix_expression
+
+    def get_expression_value(self):
+        '''
+        Возвращает значение выражения, записанного в постфиксной форме в поле __postfix_expression
+        :return:
+        '''
+        pass
