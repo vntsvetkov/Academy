@@ -18,6 +18,28 @@ Task 1. Дана скобочная последовательность. Нуж
 если последовательность правильная, а иначе возвращает False.
 """
 
+
+def is_correct_brackets(sequence: str) -> bool:
+    brackets = {
+        '(': ')',
+        '[': ']',
+        '{': '}',
+        '<': '>'
+    }
+    s = Stack()
+    for symbol in sequence:
+        if symbol in brackets.keys():
+            s.push(symbol)
+        elif not s.is_empty() and symbol == brackets[s.peek()]:
+            s.pop()
+        else:
+            return False
+
+    if s.is_empty():
+        return True
+    return False
+
+
 """
 Task 2. Реализовать алгоритм вычисления выражения по обратной польской записи.
 
@@ -69,7 +91,8 @@ Task 3. Перевести выражение из инфиксной формы
 
 
 def execute_application():
-    pass
+    s = "([{}])"
+    print(is_correct_brackets(s))
 
 
 if __name__ == "__main__":
