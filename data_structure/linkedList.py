@@ -19,34 +19,37 @@ class LinkedList:
         self.__head = None
         self.__length = 0
 
-    # add_first(item) - добавление элемента item в начало
     def add_first(self, item):
+        """ Добавление элемента item в начало списка """
         self.__head = Node(item, self.__head)
         self.__length += 1
-    # add_last(item) - добавление элемента item в конец
 
     def add_last(self, item):
+        """ добавление элемента item в конец списка """
         if self.__head is None:
-            self.add_first(item)
+            self.__head = Node(item, self.__head)
+            self.__length += 1
         else:
             current_node = self.__head
             while current_node.link is not None:
                 current_node = current_node.link
             current_node.link = Node(item)
             self.__length += 1
-    # remove_first() - удаляет и возвращает первый элемент
 
     def remove_first(self):
+        """ удаляет и возвращает первый элемент из начала списка """
         item = self.__head.data
         self.__head = self.__head.link
         self.__length -= 1
         return item
 
-    # remove_last() - удаляет и возвращает последний элемент
     def remove_last(self):
-        # FIXME: При удалении последнего элемента списка возвращается None
+        """ удаляет и возвращает последний элемент из конца списка """
         if self.__head.link is None:
-            self.remove_first()
+            item = self.__head.data
+            self.__head = self.__head.link
+            self.__length -= 1
+            return item
         else:
             current_node = self.__head
             while current_node.link.link is not None:
@@ -55,9 +58,17 @@ class LinkedList:
             current_node.link = None
             self.__length -= 1
             return item
-    # __len__ - возвращает количество элементов
 
     def __len__(self):
+        """ возвращает количество элементов в списке """
         return self.__length
 
-    # items() - итератор, который последователно возвращает каждый элемент
+    def items(self):
+        """ возвращает итератор, который последовательно возвращает каждый элемент"""
+        if self.__head is not None:
+            current_node = self.__head
+            yield current_node.data
+            while current_node.link is not None:
+                current_node = current_node.link
+                yield current_node.data
+

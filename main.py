@@ -1,27 +1,32 @@
-from data_structure.queue import Queue
-# from data_structure.deque import Deque
-# from data_structure.linkedList import LinkedList
-
 from collections import deque
 
+from data_structure.queue import Queue
+from data_structure.deque import Deque
+from data_structure.linkedList import LinkedList
+
+
 def execute_application():
-    '''
-    linked_list = LinkedList()
-    linked_list.add_first(1)
-    linked_list.add_first(2)
-    linked_list.add_last(3)
-    linked_list.add_last(4)
-    print(linked_list.remove_first()) # 2
-    print(linked_list.remove_last()) # 4
-    print(linked_list.remove_first()) # 1
-    print(linked_list.remove_last()) # 3
-    '''
+
+    # Демонстрация связного списка
+    link_list = LinkedList()
+    link_list.add_first(1)
+    link_list.add_first(2)
+    link_list.add_last(3)
+    link_list.add_last(4)
+
+    # Итерация по всем элементам списка через метод items()
+    # for item in link_list.items(): print(item)
+
+    print(link_list.remove_last())
+    print(link_list.remove_last())
+    print(link_list.remove_last())
+    print(link_list.remove_last())
+
+    # Демонстрация очереди
     q = Queue()
     q.enqueue(1)
     q.enqueue(2)
     q.enqueue(3)
-    print(q.peek())
-    print(len(q))
     print(q.dequeue())
     print(q.dequeue())
     print(q.dequeue())

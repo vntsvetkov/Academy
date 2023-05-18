@@ -5,24 +5,24 @@ class Queue:
     def __init__(self):
         self.__data = LinkedList()
 
-    # enqueue(item) – добавление нового элемента в очередь.
     def enqueue(self, item):
+        """ Добавление нового элемента item в очередь """
         self.__data.add_last(item)
 
-    # dequeue() – удаление и возврат очередного элемента в порядке «первым вошел, первым вышел» (FIFO).
     def dequeue(self):
+        """ удаление и возврат очередного элемента в порядке «первым вошел, первым вышел» (FIFO) """
         return self.__data.remove_first()
 
-    # peek() – возврат(без удаления) очередного элемента в очереди в порядке FIFO.
     def peek(self):
+        """ возврат(без удаления) очередного элемента в очереди в порядке FIFO """
         item = self.__data.remove_first()
         self.__data.add_first(item)
         return item
 
-    # size() – возврат количества элементов в очереди (будет использоваться __len()__)
     def __len__(self):
+        """ возврат количества элементов в очереди """
         return len(self.__data)
 
-    # is_empty() – возврат True, если в очереди нет элементов, иначе возврат False.
     def is_empty(self):
+        """ ПРоверка очереди на пустоту """
         return len(self.__data) == 0
