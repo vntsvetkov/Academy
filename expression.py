@@ -8,6 +8,16 @@ class ExpressionConverter:
     }
 
     @staticmethod
+    def __normalize_infix_expression(expression: str) -> str:
+        """
+        Метод который учитывает отрицательные значения и приводит инфиксную
+        запись выражения к виду пригодному для перевода в постфиксную запись
+        :param expression:
+        :return:
+        """
+        pass
+
+    @staticmethod
     def to_postfix(expression: str) -> list:
         pass
 
