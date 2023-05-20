@@ -14,6 +14,7 @@ class PriorityQueue:
         self.queue.append(data)
 
     # for popping an element based on Priority
+    # TODO: How to extract an element O(1)
     def delete(self):
         try:
             max_val = 0
