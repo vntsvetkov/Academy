@@ -19,5 +19,6 @@ def heap_sort(lst):
     for i in range(n // 2 - 1, -1, -1):
         heapify(lst, n, i)
 
-
-
+    for i in range(n-1, 0, -1):
+        lst[0], lst[i] = lst[i], lst[0]
+        heapify(lst, i, 0)
