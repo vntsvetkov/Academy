@@ -1,68 +1,14 @@
 from data_structure.priority_queue import PriorityQueue, Entry
 from data_structure.heap_sort import heap_sort
 from heapq import heapify, heappop, heappush
-import time
 from random import randint
-
-
-def timer(f):
-    """ Декоратор для замера времениработы функции"""
-    def tmp(*args, **kwargs):
-        begin = time.time()
-        res = f(*args, **kwargs)
-        end = time.time()
-        print("Время выполнения функции: {}".format(end - begin))
-        return res
-    return tmp
-
-
-@timer
-def heapsort(iterable):
-    """ Пирамидальная сортировка с использованием минимальной кучи из модуля heapq"""
-    h = []
-    for value in iterable:
-        heappush(h, value)
-    return [heappop(h) for _ in range(len(h))]
-
-@timer
-def bubble_sorting(alist: list) -> list:
-    """
-    Сортировка пузырьком
-
-    :type alist: object
-    :param collection (list): Список для сортировки
-    :return:
-            collection (list): Отсортированный список
-    """
-    N = len(alist)
-    for i in range(N - 1):
-        swapped = True
-        for j in range(N - i - 1):
-            if alist[j] > alist[j + 1]:
-                alist[j], alist[j + 1] = alist[j + 1], alist[j]
-                swapped = False
-        if swapped:
-            break
-    return alist
-
-
-class Pair:
-    """ Объект для макимальной кучи"""
-    def __init__(self, value, priority):
-        self.value = value
-        self.priority = priority
-
-    # Переопределите оператор "меньше чем" __lt__ со знаком >, чтобы класс Pair работал с максимальной кучей.
-    def __lt__(self, other):
-        return self.priority > other.priority
-
-    def __repr__(self):
-        return f'({self.value}, {self.priority})'
+from data_structure.max_heap import MaxHeap, Pair
 
 
 def execute_application():
 
-    """ Очередь с приоритетом
+    """ Очередь с приоритетом (реализация на списках)
+
     queue = PriorityQueue()
     queue.insert("Помыть машину", 10)
     queue.insert("Сходить в кино", 7)
@@ -70,9 +16,10 @@ def execute_application():
     queue.insert("Погладить кота", 1)
     while not(queue.is_empty()):
         print(queue.delete())
+
     """
 
-    """ Очередь с приоритетом из объектов Entry на основе минимальной кучи модуля heapq
+    """ Очередь с приоритетом из объектов Entry (реализация на минимальной куче модуля heapq)
 
     q = []
 
@@ -86,14 +33,18 @@ def execute_application():
 
     """
 
-    """ Пирамидальная сортировка
+    """ Пирамидальная сортировка (реализация на списках)
+    
     arr = [5, 3, 8, 12, 1, 0, 9]
     heap_sort(arr) # 12, 9, 8, 3, 1, 0, 5
     print(arr)
+    
     """
 
-    """ Максимальная куча на модуле heapq. Достаточно просто переопределить метод __lt__ в хранимом кучей объекте.
-    # строит максимальную кучу пар
+    """ Максимальная куча из объектов класса Pair (реализация на модуле heapq) 
+    
+    # Достаточно просто переопределить метод __lt__ в хранимом кучей объекте.
+    
     pq = [Pair(7, 0), Pair(3, 3), Pair(9, 4), Pair(4, 1), Pair(6, 2), Pair(1, 5)]
     heapify(pq)
 
@@ -104,6 +55,23 @@ def execute_application():
         
     """
 
+    """ Максимальная куча (реализация на модуле heapq).
+    arr = [7, 4, 6, 3, 9, 1]
+ 
+    # создает максимальную кучу из всех элементов в списке
+    pq = MaxHeap(arr)
+ 
+    # поп из максимальной кучи
+    print(pq.pop())     # 9
+    print(pq.pop())     # 7
+    print(pq.pop())     # 6
+ 
+    pq.push(10)
+    pq.push(9)
+ 
+    print(pq.pop())     # 10
+    print(pq.pop())     # 9
+    """
 
 
 if __name__ == "__main__":
