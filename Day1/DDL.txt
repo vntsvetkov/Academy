@@ -1,0 +1,132 @@
+DDL – Data Definition Language
+В эту группу входят следующие операторы:
+
+        CREATE – используется для создания объектов базы данных;
+        ALTER – используется для изменения объектов базы данных;
+        DROP – используется для удаления объектов базы данных.
+
+
+1. CREATE TABLE (CREATE TABLE IF NOT EXISTS)
+
+CREATE TABLE Users
+        (
+            Id INTEGER,
+            Name TEXT,
+            Age INTEGER
+        );
+
+
+CREATE TABLE IF NOT EXISTS Users
+        (
+            Id INTEGER,
+            Name TEXT,
+            Age INTEGER
+        );
+
+
+2. DROP TABLE (DROP TABLE IF EXISTS)
+
+DROP TABLE Users
+DROP TABLE IF EXISTS Users
+
+
+3. ALTER TABLE
+
+
+Переименование таблицы
+ALTER TABLE users
+RENAME TO people;
+
+Добавление нового столбца
+ALTER TABLE users
+ADD COLUMN email TEXT NOT NULL;
+
+Переименование столбца
+ALTER TABLE users
+RENAME COLUMN email TO login;
+
+Удаление столбца
+ALTER TABLE users
+DROP COLUMN login;
+
+
+4. DATA TYPES
+
+NULL: указывает фактически на отсутствие значения
+
+INTEGER: представляет целое число, которое может быть положительным и отрицательным и в зависимости от своего значения может занимать 1, 2, 3, 4, 6 или 8 байт
+
+REAL: представляет число с плавающей точкой, занимает 8 байт в памяти
+
+TEXT: строка текста в одинарных кавычках, которая сохраняется в кодировке базы данных (UTF-8, UTF-16BE или UTF-16LE)
+
+BLOB: бинарные данные
+
+
+5.  PRIMARY KEY, CHECK, DEFAULT, NOT NULL, UNIQUE, AUTOINCREMENT
+
+
+5.1 PRIMARY KEY (Первичный ключ)
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            age INTEGER
+        );
+
+5.2 AUTOINCREMENT
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            age INTEGER
+        );
+
+5.3 UNIQUE
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            age INTEGER,
+            email TEXT UNIQUE
+        );
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            age INTEGER,
+            email TEXT,
+            UNIQUE (name, email)
+        );
+
+
+5.4 NOT NULL
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            age INTEGER
+        );
+
+5.5 DEFAULT
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            age INTEGER DEFAULT 18
+        );
+
+5.6 CHECK
+
+CREATE TABLE users
+        (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            age INTEGER CHECK(age > 18)
+        );
