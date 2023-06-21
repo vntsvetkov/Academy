@@ -3,7 +3,7 @@ CREATE TABLE groups
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     rating INTEGER DEFAULT 0 CHECK(rating >= 0 and rating <= 5),
-    course INTEGER DEFAULT 1 NOT NULL
+    course INTEGER DEFAULT 1
 
 );
 
@@ -43,7 +43,7 @@ VALUES
 
 
 /* Группировка запросов 
-    Оператор GROUP BY
+    Оператор GROUP BY и HAVING
 
     Агрегатные функции:
     AVG()
@@ -63,26 +63,26 @@ FROM tables
 
 */
 
-/* Статистика по должностям сотрудников, которые работают больше 5 лет*/
+/* Статистика по должностям сотрудников, которые работают больше 5 лет */
 SELECT position, COUNT(*) AS [count_position] 
 FROM teachers
 WHERE (date('now') - employment_date) > 5
 GROUP BY position
 
-
+/* Статистика по должностям сотрудников, которые работают больше 5 лет с минимальной ЗП в должности */
 SELECT position, COUNT(*) AS [count_position], MIN(salary) AS [min_salary]
 FROM teachers
 WHERE (date('now') - employment_date) > 5
 GROUP BY position
 
-
+/*
 position     count_position    min_salary
 Доцент	        1	            32000.0
 Преподаватель	2	            32000.0
 Профессор	    3	            39000.0
+*/
 
-
-/* Запросить должности на которых минимальная ЗП Б 35000*/
+/* Запросить должности на которых минимальная ЗП меньше 35000 */
 SELECT position, COUNT(*) AS [count_position], MIN(salary) AS [min_salary]
 FROM teachers
 WHERE (date('now') - employment_date) > 5
@@ -90,14 +90,14 @@ GROUP BY position
 HAVING min_salary < 35000
 ORDER BY count_position DESC
 
-/* Увеличить ЗП по итогам выборки сверху*/
+/* Увеличить ЗП по итогам выборки сверху */
 UPDATE teachers
 SET salary = salary + 5000
 WHERE 
 position = "Преподаватель" and salary = 32000 or 
 position = "Доцент" and salary = 32000
 
-/*Подзапрос*/
+/*Подзапрос сотрудников у которых зарплата меньше чем средняя зарплата всех сотрудников */
 SELECT name, surname, salary
 FROM teachers
 WHERE salary < (SELECT AVG(salary) FROM teachers);
