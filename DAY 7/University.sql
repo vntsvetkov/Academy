@@ -31,7 +31,7 @@ CREATE TABLE "faculties" (
 
 /* Группы */
 CREATE TABLE "groups" (
-	"name"	TEXT UNIQUE,
+	"name"	TEXT NOT NULL UNIQUE,
 	"rating"	INTEGER DEFAULT 0 CHECK("rating" >= 0 AND "rating" <= 5),
 	"course"	INTEGER NOT NULL DEFAULT 1,
 	"id_facultie"	INTEGER NOT NULL DEFAULT 0,
@@ -60,16 +60,44 @@ CREATE TABLE "disciplines" (
     PRIMARY KEY("code")
 );
 
+/* 1. Создать таблицу Группы и дисциплины */
 
-/* Создать таблицу Группы и дисциплины */
+CREATE TABLE "groups_and_disciplines" (
+	"name_group" TEXT,
+	"code_discipline" TEXT,
+	FOREIGN KEY("name_group") REFERENCES "groups"("name"),
+	FOREIGN KEY("code_discipline") REFERENCES "disciplines"("code")
+)
 
-/* Создать таблицу Преподаватели и группы */
+INSERT INTO groups_and_disciplines
+VALUES
+("P01", "001"),
+("P01", "002"),
+("P02", "001"),
+("P02", "002"),
+("P03", "003"),
+("P03", "004"),
+("P04", "003"),
+("P04", "004")
 
-/* Создать таблицу Преподаватели и дисциплины */
+/* 2. Создать таблицу Преподаватели и группы */
+CREATE TABLE "teachers_and_groups" (
+	"name_group" TEXT,
+	"id_teacher" INTEGER,
+	FOREIGN KEY("name_group") REFERENCES "groups"("name"),
+	FOREIGN KEY("id_teacher") REFERENCES "teachers"("id")
+)
 
-/* Создать таблицу Студенты и группы */
+/* 3. Создать таблицу Преподаватели и дисциплины */
+CREATE TABLE "teachers_and_disciplines" (
+	"code_discipline" TEXT,
+	"id_teacher" INTEGER,
+	FOREIGN KEY("code_discipline") REFERENCES "disciplines"("code"),
+	FOREIGN KEY("id_teacher") REFERENCES "teachers"("id")
+)
 
 /* Добавление в таблицу "Учителя"*/
+
 
 INSERT INTO teachers (name, surname, employment_date, position, salary, id_department)
 VALUES
@@ -86,10 +114,10 @@ VALUES
 INSERT INTO deans (name, surname, email)
 VALUES
 ("Иван", "Петров", "ia.petrov@education.ru"),
-("Петр", "Иванов", "po.ivanov@education.ru");
+("Петр", "Иванов", "po.ivanov@education.ru")
 
 /* Добавление в таблицу "Факультеты "*/
-INSERT INTO faculties (facultie_name, id_dean)
+INSERT INTO faculties (facultie_name, financing, id_dean)
 VALUES
 ("Физико-математический", (SELECT SUM(financing) FROM departments WHERE departments.id_facultie = 1), 1),
 ("Экономический", (SELECT SUM(financing) FROM departments WHERE departments.id_facultie = 2), 2);
@@ -118,5 +146,51 @@ VALUES
 ("001", "Математика"),
 ("002", "Алгебра и геометрия"),
 ("003", "Бухгалтерия и учет"),
-("004", "Экономика"),
+("004", "Экономика")
+
+
+
+UPDATE faculties
+SET 
+financing = (SELECT 
+				SUM(financing) 
+			FROM 
+				departments 
+			WHERE 
+				departments.id_facultie = 1)
+WHERE faculties.id = 1
+
+UPDATE faculties
+SET 
+financing = (SELECT 
+				SUM(financing) 
+			FROM 
+				departments 
+			WHERE 
+				departments.id_facultie = 2)
+WHERE faculties.id = 2
+
+
+SELECT groups.name, groups.course, disciplines.name
+FROM groups, disciplines, groups_and_disciplines
+WHERE 
+	groups_and_disciplines.name_group = groups.name AND
+	groups_and_disciplines.code_discipline = disciplines.code AND
+	groups.name = "P01"
+
+/* Вывести ФИО преподавателей и назваия факультетов, где они ведут занятия*/
+
+Преподаватель - > кафедра (через id_depertments)
+Кафедра -> Факультету (через id_facultie)
+
+SELECT
+    teachers.name,
+    teachers.surname,
+    faculties.facultie_name
+FROM
+    teachers,
+    faculties
+INNER JOIN departments
+ON    teachers.id_department = departments.id AND
+	  departments.id_facultie = faculties.id
 
