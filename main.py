@@ -11,11 +11,14 @@ from prettytable import from_db_cursor
 """
 
 
-def database_connect(path: str) -> sqlite3.Cursor:
-    connection = sqlite3.connect(path)
-    print("Соединение установлено")
-    cursor = connection.cursor()
-    return cursor
+def database_connect(path: str) -> sqlite3.Connection:
+    try:
+        connection = sqlite3.connect(path)
+    except Error as e:
+        print(e)
+    else:
+        print("Соединение установлено")
+        return connection
 
 
 def create_table(cursor, sql_request: str):
@@ -27,16 +30,15 @@ def create_table(cursor, sql_request: str):
         print(f"Таблица создана")
 
 
-def database_close(cursor):
-    cursor.close()
-    print("Соединение завершено")
-
-
 def execute_application():
-    # Способ 1
-    '''
+
+    # Задача 1. Создать таблицу
+    # Способ 1. Выполнение запросов через открытие/закрытие
+
     # Подключиться к БД
-    cursor = database_connect('phonebook.db')
+    connection = database_connect('phonebook.db')
+    cursor = connection.cursor()
+
     # Создать таблицу
     sql_request = f""" CREATE TABLE IF NOT EXISTS Contacts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,12 +48,13 @@ def execute_application():
             city TEXT
         ); """
     create_table(cursor, sql_request)
-    # Закрыть БД
-    database_close(cursor)
-    '''
 
-    # Способ 2. Выполнение запросов через with
-    '''
+    # Закрыть БД
+    connection.close()
+    print("Соединение завершено")
+
+    #Способ 2. Выполнение запросов через with
+
     connection = sqlite3.connect('phonebook.db')
     with connection:
         cursor = connection.cursor()
@@ -63,37 +66,61 @@ def execute_application():
                      city TEXT
                  ); """
         cursor.execute(sql_request)
-    '''
-    # Добавить данные
 
-    # connection = sqlite3.connect('phonebook.db')
-    # with connection:
-    #     cursor = connection.cursor()
-    #     sql_request = """ INSERT INTO Contacts (name, surname, phone, city)
-    #                       VALUES
-    #                       ('Paul', 'Jones', '456-678', 'New York'),
-    #                       ('Alen', 'Delone', '458-478', 'Los Angeles'),
-    #                       ('Teddy', 'Shark', '358-491', 'New York')
-    #     """
-    #     try:
-    #         cursor.execute(sql_request)
-    #         '''
-    #         cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
-    #                             VALUES({0}, {1}, {2}, {3})
-    #                             """.format('Paul', 'Jones', '456-678', 'New York'))
-    #         '''
-    #         '''
-    #         cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
-    #                             VALUES(?, ?, ?, ?)""", ('Paul', 'Jones', '456-678', 'New York'))
-    #         '''
-    #         '''
-    #         cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
-    #                             VALUES(:name, :surname, :phone, :city)""", {'name': 'Paul', 'surname': 'Jones', 'phone': '456-678', 'city': 'New York'})
-    #         '''
-    #     except Error as e:
-    #         print(e)
+    # Задача 2. Добавить данные в таблицу
 
-    # Выполнить запрос на извлечение данных
+    # Способ 1. Через открытие/закрытие и commit
+
+    connection = database_connect('phonebook.db')
+    cursor = connection.cursor()
+
+    sql_request = """ INSERT INTO Contacts (name, surname, phone, city)
+                               VALUES
+                               ('Paul', 'Jones', '456-678', 'New York'),
+                               ('Alen', 'Delone', '458-478', 'Los Angeles'),
+                               ('Teddy', 'Shark', '358-491', 'New York')
+    """
+    cursor.execute(sql_request)
+
+    connection.commit() # зафиксировать изменения в БД перед закрытием подключения. Выполняется, если в БД происходят изменения без использования with
+    connection.close()
+    print("Соединение завершено")
+
+    # Способ 2. Через with
+
+    connection = sqlite3.connect('phonebook.db')
+    with connection:
+        cursor = connection.cursor()
+        sql_request = """ INSERT INTO Contacts (name, surname, phone, city)
+                          VALUES
+                          ('Paul', 'Jones', '456-678', 'New York'),
+                          ('Alen', 'Delone', '458-478', 'Los Angeles'),
+                          ('Teddy', 'Shark', '358-491', 'New York')
+        """
+        try:
+            cursor.execute(sql_request)
+            # Варианты выполнения запросов на добавление
+            '''
+            1. 
+            cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
+                                VALUES({0}, {1}, {2}, {3})
+                                """.format('Paul', 'Jones', '456-678', 'New York'))
+            '''
+            '''
+            2. 
+            cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
+                                VALUES(?, ?, ?, ?)""", ('Paul', 'Jones', '456-678', 'New York'))
+            '''
+            '''
+            3. 
+            cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
+                                VALUES(:name, :surname, :phone, :city)""", {'name': 'Paul', 'surname': 'Jones', 'phone': '456-678', 'city': 'New York'})
+            '''
+        except Error as e:
+            print(e)
+
+
+    # Задание 3. Выполнить запрос на извлечение данных
     connection = sqlite3.connect('phonebook.db')
     with connection:
         cursor = connection.cursor()
@@ -104,8 +131,10 @@ def execute_application():
             print(e)
         else:
             data = cursor.fetchall() # список кортежей
+            # data = cursor.fetchone() # Итератор, возвращающий очередной кортеж выборки
+            # data = cursor.fetchmany(size=3) # Итератор, возвращающий size элементов выборки в виде списка кортежей
 
-            # Записать data в другую таблицу
+            # Подзадача 3.1. Записать data в другую таблицу
             # Подключится к другой БД
             # Выполнить запрос на добавление в таблицу
             # with other_connection:
@@ -114,9 +143,20 @@ def execute_application():
                 # other_cursor.executemany(sql_req, data)
 
             for record in data:
-                 print(record)
+                print(record)
+
+            # Вывод с использованием prettytable
             # my_table = from_db_cursor(cursor)
             # print(my_table)
+
+    # Задание 4. Получить информацию о всех полях таблицы
+    connection = sqlite3.connect('phonebook.db')
+    cursor = connection.cursor()
+    table_name = "Contacts"
+    cursor.execute(f"PRAGMA table_info({table_name})")
+    fields = cursor.fetchall()
+    print(fields)
+    connection.close()
 
 
 if __name__ == "__main__":
