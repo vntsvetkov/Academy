@@ -53,7 +53,7 @@ def execute_application():
     connection.close()
     print("Соединение завершено")
 
-    #Способ 2. Выполнение запросов через with
+    # Способ 2. Выполнение запросов через with
 
     connection = sqlite3.connect('phonebook.db')
     with connection:
@@ -82,7 +82,8 @@ def execute_application():
     """
     cursor.execute(sql_request)
 
-    connection.commit() # зафиксировать изменения в БД перед закрытием подключения. Выполняется, если в БД происходят изменения без использования with
+    connection.commit()  # зафиксировать изменения в БД перед закрытием подключения.
+    # Выполняется, если в БД происходят изменения без использования with
     connection.close()
     print("Соединение завершено")
 
@@ -114,11 +115,11 @@ def execute_application():
             '''
             3. 
             cursor.execute(f""" INSERT INTO Contacts (name, surname, phone, city)
-                                VALUES(:name, :surname, :phone, :city)""", {'name': 'Paul', 'surname': 'Jones', 'phone': '456-678', 'city': 'New York'})
+                                VALUES(:name, :surname, :phone, :city)""", 
+                                {'name': 'Paul', 'surname': 'Jones', 'phone': '456-678', 'city': 'New York'})
             '''
         except Error as e:
             print(e)
-
 
     # Задание 3. Выполнить запрос на извлечение данных
     connection = sqlite3.connect('phonebook.db')
@@ -130,7 +131,7 @@ def execute_application():
         except Error as e:
             print(e)
         else:
-            data = cursor.fetchall() # список кортежей
+            data = cursor.fetchall()  # список кортежей
             # data = cursor.fetchone() # Итератор, возвращающий очередной кортеж выборки
             # data = cursor.fetchmany(size=3) # Итератор, возвращающий size элементов выборки в виде списка кортежей
 
@@ -138,16 +139,16 @@ def execute_application():
             # Подключится к другой БД
             # Выполнить запрос на добавление в таблицу
             # with other_connection:
-                # other_cursor = other_connection.cursor()
-                # sql_req = """ Запрос на ставку данных с кортежем """
-                # other_cursor.executemany(sql_req, data)
+            #       other_cursor = other_connection.cursor()
+            #       sql_req = """ Запрос на ставку данных с кортежем """
+            #       other_cursor.executemany(sql_req, data)
 
             for record in data:
                 print(record)
 
             # Вывод с использованием prettytable
-            # my_table = from_db_cursor(cursor)
-            # print(my_table)
+            my_table = from_db_cursor(cursor)
+            print(my_table)
 
     # Задание 4. Получить информацию о всех полях таблицы
     connection = sqlite3.connect('phonebook.db')
