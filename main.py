@@ -28,6 +28,9 @@ def create_table(cursor, sql_request: str):
         print(e)
     else:
         print(f"Таблица создана")
+    finally:
+        # закрыть курсор
+        cursor.close()
 
 
 def execute_application():
@@ -48,7 +51,6 @@ def execute_application():
             city TEXT
         ); """
     create_table(cursor, sql_request)
-
     # Закрыть БД
     connection.close()
     print("Соединение завершено")
@@ -66,9 +68,9 @@ def execute_application():
                      city TEXT
                  ); """
         cursor.execute(sql_request)
+        cursor.close()
 
     # Задача 2. Добавить данные в таблицу
-
     # Способ 1. Через открытие/закрытие и commit
 
     connection = database_connect('phonebook.db')
@@ -80,12 +82,17 @@ def execute_application():
                                ('Alen', 'Delone', '458-478', 'Los Angeles'),
                                ('Teddy', 'Shark', '358-491', 'New York')
     """
-    cursor.execute(sql_request)
+    try:
+        cursor.execute(sql_request)
+    except Error as e:
+        print(e)
+    finally:
 
-    connection.commit()  # зафиксировать изменения в БД перед закрытием подключения.
-    # Выполняется, если в БД происходят изменения без использования with
-    connection.close()
-    print("Соединение завершено")
+        connection.commit()  # зафиксировать изменения в БД перед закрытием подключения.
+        # Выполняется, если в БД происходят изменения без использования with
+        cursor.close()
+        connection.close()
+        print("Соединение завершено")
 
     # Способ 2. Через with
 
@@ -120,6 +127,8 @@ def execute_application():
             '''
         except Error as e:
             print(e)
+        finally:
+            cursor.close()
 
     # Задание 3. Выполнить запрос на извлечение данных
     connection = sqlite3.connect('phonebook.db')
@@ -149,15 +158,22 @@ def execute_application():
             # Вывод с использованием prettytable
             my_table = from_db_cursor(cursor)
             print(my_table)
+        finally:
+            cursor.close()
 
     # Задание 4. Получить информацию о всех полях таблицы
     connection = sqlite3.connect('phonebook.db')
     cursor = connection.cursor()
     table_name = "Contacts"
-    cursor.execute(f"PRAGMA table_info({table_name})")
-    fields = cursor.fetchall()
-    print(fields)
-    connection.close()
+    try:
+        cursor.execute(f"PRAGMA table_info({table_name})")
+        fields = cursor.fetchall()
+    except Error as e:
+        print(e)
+    else:
+        print(fields)
+    finally:
+        connection.close()
 
 
 if __name__ == "__main__":
