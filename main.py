@@ -22,15 +22,8 @@ def database_connect(path: str) -> sqlite3.Connection:
 
 
 def create_table(cursor, sql_request: str):
-    try:
-        cursor.execute(sql_request)
-    except Error as e:
-        print(e)
-    else:
-        print(f"Таблица создана")
-    finally:
-        # закрыть курсор
-        cursor.close()
+    cursor.execute(sql_request)
+    print(f"Таблица создана")
 
 
 def execute_application():
@@ -50,10 +43,15 @@ def execute_application():
             phone TEXT NOT NULL UNIQUE,
             city TEXT
         ); """
-    create_table(cursor, sql_request)
-    # Закрыть БД
-    connection.close()
-    print("Соединение завершено")
+    try:
+        create_table(cursor, sql_request)
+    except Error as e:
+        print(e)
+    finally:
+        cursor.close()
+        # Закрыть БД
+        connection.close()
+        print("Соединение завершено")
 
     # Способ 2. Выполнение запросов через with
 
@@ -173,7 +171,9 @@ def execute_application():
     else:
         print(fields)
     finally:
+        cursor.close()
         connection.close()
+        print("Соединение завершено")
 
 
 if __name__ == "__main__":
