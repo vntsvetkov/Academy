@@ -24,13 +24,17 @@ class Entry:
 
 
 class DBSingleton:
+    __instance = None
     __connection: sqlite3.Connection = None
 
     @classmethod
-    def connect(cls, path):
-        if not cls.__connection:
-            cls.__connection = sqlite3.connect(path)
-        return cls.__connection
+    def create_db(cls, *args, **kwargs):
+        if not cls.__instance:
+            cls.__instance = DBSingleton()
+        return cls.__instance
+
+    def connect(self, path):
+        self.__connection = sqlite3.connect(path)
 
 
 class DBPhonebook:
