@@ -15,3 +15,6 @@ class View:
         for article in articles:
             print(article)
 
+    def main(self):
+        """ Сценарий 1. Вывести пользователю все статьи подряд """
+        self.__controller.get_articles()

@@ -14,8 +14,7 @@ def execute_application():
     controller = Controller(model)
     view = View(model, controller)
 
-    """ Сценарий 1. Вывести пользователю все статьи подряд """
-    controller.get_articles()
+    view.main()
 
 
 if __name__ == "__main__":
