@@ -11,17 +11,16 @@ class Model:
 
     @staticmethod
     def get_articles_from_db():
-        articles = Article.select()
+        articles = Article.select().where(Article.date == "2023-08-02")
+
         return articles
 
     @staticmethod
-    def add_article(article: Article):
-        Article.create(title="Асинхронные микросервисы на Python",
-                       author="Teamlead компании IT Leader",
-                       date=date(2023, 8, 3),
-                       description="Микросервисы – это парадигма, где приложение разбивается на небольшие независимые "
-                                   "компоненты, каждый из которых отвечает за конкретную функцию. Это как отделы в "
-                                   "офисе, каждый офис – это отдельный сервис, который может быть разработан, "
-                                   "масштабирован и развернут независимо."
+    def add_article(article: tuple):
+        title, author, date_, description = article
+        Article.create(title=title,
+                       author=author,
+                       date=date_,
+                       description=description
                        )
 

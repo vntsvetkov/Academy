@@ -21,6 +21,7 @@ class Controller:
         # Отдать данные на представление
         self.__view.output_articles(data)
 
-    def add_article(self, article: Article):
+    def add_article(self, article: tuple):
         # Запрос на добавление статьи
         self.__model.add_article(article)
+
