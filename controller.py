@@ -22,4 +22,5 @@ class Controller:
         self.__view.output_articles(data)
 
     def add_article(self, article: Article):
-        ...
+        # Запрос на добавление статьи
+        self.__model.add_article(article)

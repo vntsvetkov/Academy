@@ -1,5 +1,5 @@
 from article import Article
-
+from datetime import date
 """  Тут можно реализовать паттерн Стратегия. 
 Например, для одного приложения мы можем создать несколько моделей. Одна будет отладочной, а другая рабочей. 
 Первая может хранить свои данные в файле, а вторая уже задействует базу данных."""
@@ -11,11 +11,17 @@ class Model:
 
     @staticmethod
     def get_articles_from_db():
-        # Делаем запрос к БД
-        art1 = Article()
-        art1.title = "Статья 1"
-        art1.author = "Автор 1"
-        art1.description = "Описание 1"
-        articles = [art1]
+        articles = Article.select()
         return articles
+
+    @staticmethod
+    def add_article(article: Article):
+        Article.create(title="Асинхронные микросервисы на Python",
+                       author="Teamlead компании IT Leader",
+                       date=date(2023, 8, 3),
+                       description="Микросервисы – это парадигма, где приложение разбивается на небольшие независимые "
+                                   "компоненты, каждый из которых отвечает за конкретную функцию. Это как отделы в "
+                                   "офисе, каждый офис – это отдельный сервис, который может быть разработан, "
+                                   "масштабирован и развернут независимо."
+                       )
 
