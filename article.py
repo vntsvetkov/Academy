@@ -16,4 +16,4 @@ class Article(Model):
     def __str__(self):
         return f"{self.title} \n" \
                f"{self.author} \n" \
-               f"{self.description}"
+               f"{self.description}" \

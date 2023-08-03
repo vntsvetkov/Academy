@@ -23,7 +23,7 @@ class View:
 
     def main(self):
         """ Сценарий 1. Вывести пользователю все статьи подряд """
-        # self.__controller.get_articles()
+        self.__controller.get_articles()
         # self.__controller.add_article(True)
 
     def __del__(self):
